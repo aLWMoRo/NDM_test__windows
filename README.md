@@ -28,17 +28,17 @@ cmake --build . --config Release
 
 
 ## 📋 Использование
-  Ping по Ip-адресу
-    - NDM_test__windows 8.8.8.8
+  ### Ping по Ip-адресу
+    NDM_test__windows 8.8.8.8
 
-  Ping по доменному имени
-    - NDM_test__windows google.com
+  ### Ping по доменному имени
+    NDM_test__windows google.com
 
-  Ping локального устройства
-    - NDM_test__windows localhost
+  ### Ping локального устройства
+    NDM_test__windows localhost
 
-### Пример вывода
-![screenshot](Images/Example_ping.png)
+  ### Пример вывода
+  ![screenshot](Images/Example_ping.png)
 
 
 ## 🛠 Технические детали
