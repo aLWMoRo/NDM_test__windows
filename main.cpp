@@ -2,12 +2,12 @@
 
 
 
-void Ping::Send_ping(ULONG target_ip)
+void Ping::Send_ping(ULONG target_ip) const
 {
   char send_data[] = "Ping ping ping ...";
   char reply_buffer[sizeof(ICMP_ECHO_REPLY) + sizeof(send_data) + 8];
 
-  DWORD reply_size = IcmpSendEcho(
+  const DWORD reply_size = IcmpSendEcho(
     icmp_handle,
     target_ip,
     send_data,
@@ -19,11 +19,11 @@ void Ping::Send_ping(ULONG target_ip)
   );
 
   if (reply_size > 0) {
-    PICMP_ECHO_REPLY echo_reply = reinterpret_cast <PICMP_ECHO_REPLY>(reply_buffer);
+    const auto echo_reply = reinterpret_cast <PICMP_ECHO_REPLY>(reply_buffer);
 
-    std::cout << "Response from " <<
-      inet_ntoa(*reinterpret_cast <struct in_addr *>(&echo_reply->Address)) <<
-      ": time = " << echo_reply->RoundTripTime << " ms"
+    std::cout << "Response from "
+      << inet_ntoa(*reinterpret_cast <struct in_addr *>(&echo_reply->Address))
+      << ": time = " << echo_reply->RoundTripTime << " ms"
     << std::endl;
   }
   else {
@@ -32,15 +32,15 @@ void Ping::Send_ping(ULONG target_ip)
 };
 
 
-std::string Ping::Get_mac_adress(ULONG target_ip)
+std::string Ping::Get_mac_adress(ULONG target_ip) const
 {
   ULONG mac_addr[2];
   ULONG mac_addr_len = 6;
 
-  if (DWORD result = SendARP(target_ip, 0, mac_addr, &mac_addr_len);
+  if (const DWORD result = SendARP(target_ip, 0, mac_addr, &mac_addr_len);
       result == NO_ERROR && mac_addr_len == 6
   ) {
-    unsigned char * mac_bytes = reinterpret_cast <unsigned char *>(mac_addr);
+    const unsigned char * mac_bytes = reinterpret_cast <unsigned char *>(mac_addr);
     std::ostringstream oss;
     oss << std::hex << std::uppercase << std::setfill('0');
     for (int i = 0; i < mac_addr_len; ++i) {
@@ -58,7 +58,7 @@ std::string Ping::Get_mac_adress(ULONG target_ip)
 };
 
 
-void Ping::Resolve_and_ping(const std::string & target)
+void Ping::Resolve_and_ping(const std::string & target) const
 {
   struct addrinfo Hints = {};
   struct addrinfo * Result = nullptr;
@@ -67,7 +67,7 @@ void Ping::Resolve_and_ping(const std::string & target)
   Hints.ai_socktype = SOCK_RAW;
   Hints.ai_protocol = IPPROTO_ICMP;
 
-  if (int result = getaddrinfo(target.c_str(), nullptr, &Hints, &Result);
+  if (const int result = getaddrinfo(target.c_str(), nullptr, &Hints, &Result);
       result != 0 || !Result
   ) {
     std::cerr << "getaddrinfo() failed: " << gai_strerror(result)
@@ -76,7 +76,7 @@ void Ping::Resolve_and_ping(const std::string & target)
     return;
   };
 
-  sockaddr_in * ipv4 = reinterpret_cast <sockaddr_in *>(Result->ai_addr);
+  auto ipv4 = reinterpret_cast <sockaddr_in *>(Result->ai_addr);
   ULONG target_ip = ipv4->sin_addr.s_addr;
 
   char ip_str[INET_ADDRSTRLEN] = {};
@@ -117,7 +117,7 @@ Ping::~Ping()
 };
 
 
-void Ping::Do_ping(const std::string & target)
+void Ping::Do_ping(const std::string & target) const
 {
   Resolve_and_ping(target);
 };
