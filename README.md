@@ -23,7 +23,7 @@ cd NDM_test__windows
 mkdir build && cd build
 cmake ..
 cmake --build . --config Release
-
+```
 
 ## 📋 Использование
   /* Ping по Ip-адресу */
@@ -36,7 +36,7 @@ cmake --build . --config Release
     - NDM_test__windows localhost
 
 ### Пример вывода
-![screenshot](Images\Example_ping.png)
+![screenshot](Images/Example_ping.png)
 
 
 ## 🛠 Технические детали
