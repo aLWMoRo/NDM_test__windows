@@ -16,23 +16,25 @@
  - Компилятор с поддержкой C++20
 
 ### Сборка
-```powershell
+```
 git clone https://github.com/aLWMoRo/NDM_test__windows.git
 cd NDM_test__windows
-
+```
+```
 mkdir build && cd build
 cmake ..
 cmake --build . --config Release
 ```
 
+
 ## 📋 Использование
-  /* Ping по Ip-адресу */
+  Ping по Ip-адресу
     - NDM_test__windows 8.8.8.8
 
-  /* Ping по доменному имени */
+  Ping по доменному имени
     - NDM_test__windows google.com
 
-  /* Ping локального устройства */
+  Ping локального устройства
     - NDM_test__windows localhost
 
 ### Пример вывода
